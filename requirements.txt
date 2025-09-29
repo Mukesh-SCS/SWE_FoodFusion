@@ -1,0 +1,4 @@
+Flask==2.2.5
+scikit-learn==1.3.0
+pandas==2.1.0       # want to load recipes from CSV
+numpy==1.25.2       # need for scikit-learn
