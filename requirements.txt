@@ -1,4 +1,22 @@
-Flask==2.2.5
-scikit-learn==1.3.0
-pandas==2.1.0       # want to load recipes from CSV
-numpy==1.25.2       # need for scikit-learn
+
+# ---- Core Web Framework ----
+Flask==3.0.3      #stable version 
+
+# ---- Machine Learning / Data Processing csv----
+pandas==2.2.2              #stable version
+numpy==1.26.4                  
+scikit-learn==1.5.0
+
+# ---- Data Loading ----
+h5py
+
+# ---- Visualization (useful for analytics reports) ----
+matplotlib
+seaborn
+
+# --- For image processing --- 
+pillow             
+
+# ---- Environment Variables( Always run in venv ----
+python-dotenv
+

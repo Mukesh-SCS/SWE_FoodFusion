@@ -1,0 +1,15 @@
+# ---- Python ----
+__pycache__/
+
+venv/
+env/
+*.pyc
+
+# ---- Datasets ----
+dataset/*.csv
+dataset/*.h5
+dataset/*.zip
+dataset/extracted_images/
+#API info
+
+kaggle.json
