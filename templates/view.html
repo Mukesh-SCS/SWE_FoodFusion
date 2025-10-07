@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>{{ recipe.name }}</title>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="btn btn-outline">← Back</a>
+    <h1>{{ recipe.name.replace('_', ' ').title() }}</h1>
+    {% if recipe.image %}
+      <img src="{{ recipe.image }}" class="recipe-media">
+    {% endif %}
+    <p><strong>Diet:</strong> {{ recipe.diet }}</p>
+    <p><strong>Time:</strong> {{ recipe.time }} mins</p>
+    <p><strong>Ingredients:</strong> {{ recipe.ingredients|join(', ') }}</p>
+    <p><strong>Instructions:</strong> {{ recipe.instructions }}</p>
+  </div>
+</body>
+</html>

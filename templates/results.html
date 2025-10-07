@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Results</title>
+</head>
+<body>
+    <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+            <h1>Recommended Recipes</h1>
+            <button onclick="window.history.back()" class="btn btn-outline">⬅ Back</button>
+        </div>
+
+        <div class="grid">
+            {% for recipe in recipes %}
+            <article class="recipe-card">
+                {% if recipe.image %}
+                <img class="recipe-media" src="{{ recipe.image }}" alt="{{ recipe.name }}">
+                {% endif %}
+                <h3 class="recipe-title">{{ recipe.name }}</h3>
+                <div class="recipe-meta"><span class="tag">{{ recipe.diet or 'Mixed' }}</span><span class="muted">{{ recipe.time }} mins</span></div>
+                <p class="ingredients">{{ recipe.ingredients | join(', ') }}</p>
+                <div class="actions">
+                    <a class="btn btn-outline" href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">View</a>
+                    <form method="POST" action="/save/{{ recipe.id }}" style="display:inline"><button class="btn btn-primary">Save</button></form>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
