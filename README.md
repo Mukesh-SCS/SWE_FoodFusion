@@ -46,7 +46,7 @@ recipe_recommendation/
 
 1. **Clone the repository**
 ```bash
-   git clone https://github.com/<your-username>/SWE_FoodFusion.git
+   git clone https://github.com/Mukesh-SCS/SWE_FoodFusion.git
    cd SWE_FoodFusion
 ```
 
