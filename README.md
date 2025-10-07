@@ -63,12 +63,6 @@ source venv/bin/activate    # macOS/Linux
 ```bash
 pip install -r requirements.txt
 ```
-# Open in browser: localhost by running main.py 
-```
-python main.py
-
-```
-
 # 🔑 Dataset Setup (Manual Download)
 
 - This app uses the Food-41 dataset for food images.
