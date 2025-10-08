@@ -5,7 +5,7 @@ SWE Group Project : FoodFusion
 Overview
 A recipe recommendation web application built with **Flask** and **Python**.  
 It suggests recipes based on user-provided ingredients, dietary preferences, and cooking time.  
-The app also displays real food images from the **Food-41** dataset (downloaded manually from Kaggle).
+The app also displays real food images from the **Food-101 data set** dataset (downloaded manually from Kaggle).
 
 # Features
 
@@ -35,10 +35,10 @@ recipe_recommendation/
 ├── static/
 │ └── style.css                 # Styling
 └── utils/
-  └──data_loader.py            # JSON/HDF5 loaders
-  └──recommender.py            # Recommendation logic
-  └── image_predictor.py       # AI model for dish prediction 
-  └── train_model.py           # Trains CNN on Food-41 and saves model.h5
+  └── data_loader.py            # JSON/HDF5 loaders
+  └── recommender.py            # Recommendation logic
+  └── image_predictor.py        # AI model for dish prediction 
+  └── train_model.py            # Trains CNN on Food-41 and saves model.h5
 
 ```
 
@@ -67,7 +67,7 @@ pip install -r requirements.txt
 
 - This app uses the Food-41 dataset for food images.
 
-1. Go to Food-41 Dataset on Kaggle
+1. Go to Food-101 Dataset on Kaggle ( link: https://www.kaggle.com/datasets/kmader/food41/data)
 2. Click Download (requires a Kaggle account).
 3. Extract the downloaded archive and locate the file:
    - ./dataset/food_c101_n1000_r384x384x3.h5
@@ -97,4 +97,4 @@ python main.py
 
 # License
 For educational use only.
-Dataset © Kaggle / Food-41
+Dataset © Kaggle / Food-101 data set
