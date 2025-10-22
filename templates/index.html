@@ -48,5 +48,87 @@
             </form>
         </main>
     </div>
+
+<!--for the today special section -->
+{% if specials %}
+<div id="today-special" class="floating-card">
+    {% for recipe in specials %}
+    <div class="special-slide {% if loop.index == 1 %}active{% endif %}"
+         data-name="{{ recipe.name }}"
+         data-image="{{ recipe.image }}"
+         data-diet="{{ recipe.diet or 'Mixed' }}"
+         data-time="{{ recipe.time or '-' }}"
+         data-ingredients="{{ recipe.ingredients|join(', ') }}"
+         data-instructions="{{ recipe.instructions }}"
+         onclick="openSpecialModal(this)">
+        <img src="{{ recipe.image }}" alt="{{ recipe.name }}">
+        <div class="caption">
+            <strong>Today's Special:</strong><br>{{ recipe.name }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Modal -->
+<div id="special-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeSpecialModal()">&times;</span>
+        <h2 id="modal-title"></h2>
+        <img id="modal-img" src="">
+        <p><strong>Diet:</strong> <span id="modal-diet"></span></p>
+        <p><strong>Time:</strong> <span id="modal-time"></span> min</p>
+        <p><strong>Ingredients:</strong> <span id="modal-ingredients"></span></p>
+        <p><strong>Instructions:</strong> <span id="modal-instructions"></span></p>
+    </div>
+</div>
+
+<script>
+let currentIndex = 0;
+const slides = document.querySelectorAll(".special-slide");
+
+// rotation
+function showNext() {
+    slides[currentIndex].classList.remove("active");
+    currentIndex = (currentIndex + 1) % slides.length;
+    slides[currentIndex].classList.add("active");
+}
+if (slides.length) setInterval(showNext, 5000);
+
+// open modal
+function openSpecialModal(el) {
+    document.getElementById("modal-title").innerText = el.dataset.name;
+    document.getElementById("modal-img").src = el.dataset.image;
+    document.getElementById("modal-diet").innerText = el.dataset.diet;
+    document.getElementById("modal-time").innerText = el.dataset.time;
+    document.getElementById("modal-ingredients").innerText = el.dataset.ingredients;
+    document.getElementById("modal-instructions").innerText = el.dataset.instructions;
+    document.getElementById("special-modal").style.display = "block";
+}
+function closeSpecialModal() {
+    document.getElementById("special-modal").style.display = "none";
+}
+window.onclick = function(e) {
+    const modal = document.getElementById("special-modal");
+    if (e.target === modal) modal.style.display = "none";
+}
+
+// shake animation
+const card = document.getElementById("today-special");
+if (card) {
+    let x = 0, dir = 1;
+    function shake() {
+        if (!card.matches(":hover")) {
+            x += dir * 0.6;
+            if (Math.abs(x) > 5) dir *= -1;
+            card.style.transform = `translate(${x}px, ${Math.sin(x/2)}px)`;
+        }
+        requestAnimationFrame(shake);
+    }
+    shake();
+}
+</script>
+{% endif %}
+
+
 </body>
 </html>
