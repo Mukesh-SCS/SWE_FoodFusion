@@ -4,49 +4,136 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Recipe Recommander</title>
+    <title>SWE_FoodFusion</title>
 </head>
 <body>
-    <div class="container">
-        <header class="app-header">
-            <div class="brand">
-                <span class="logo" aria-hidden="true"></span>
-                <div>
-                    <h1>Recipe Recommander</h1>
-                    <p class="muted">Find recipes by ingredients, diet or time</p>
-                </div>
-            </div>
-            <!-- header search removed to avoid duplicate search buttons; main controls form remains below -->
-        </header>
 
-        <main>
+<!-- Top Brand Header -->
+<header class="main-header">
+    <div class="brand">
+        <img src="{{ url_for('static', filename='swe_foodfusion_logo.png') }}" 
+             alt="SWE FoodFusion Logo" class="logo-img">
+        <div>
+            <h1>SWE_FoodFusion</h1>
+            <p class="muted">Smart Recipe Recommender</p>
+        </div>
+    </div>
+</header>
+
+<!-- home page Section -->
+<div class="container">
+    <main class="home-page">
+        <div class="homepage-text">
+            <h2>Discover recipes with <span class="accent">AI-powered search algorithms</span></h2>
+            <p>Enter your ingredients and let SWE_FoodFusion find the perfect dish for you.</p>
+
             <form action="/search" method="POST" class="controls">
                 <input type="text" name="ingredients" placeholder="e.g. chicken, tomato" style="min-width:220px">
-
                 <select name="diet">
                     <option value="">Any</option>
                     <option value="vegetarian">Vegetarian</option>
                     <option value="vegan">Vegan</option>
                     <option value="non-vegetarian">Non-Vegetarian</option>
                 </select>
-
                 <select name="difficulty">
                     <option value="">Any</option>
                     <option value="easy">Easy</option>
                     <option value="medium">Medium</option>
                     <option value="hard">Hard</option>
                 </select>
-
                 <select name="time">
                     <option value="">No Limit</option>
                     <option value="15">15 min</option>
                     <option value="30">30 min</option>
                     <option value="60">60 min</option>
                 </select>
-
                 <button type="submit" class="btn btn-primary">Search Recipes</button>
             </form>
-        </main>
+        </div>
+
+        <div class="homepage-image">
+            <img src="{{ url_for('static', filename='middle_logoai.png') }}" alt="Food Fusion Visual">
+        </div>
+    </main>
+</div>
+
+<!-- Today’s Special Section -->
+{% if specials %}
+<div id="today-special" class="floating-card">
+    {% for recipe in specials %}
+    <div class="special-slide {% if loop.index == 1 %}active{% endif %}"
+         data-name="{{ recipe.name }}"
+         data-image="{{ recipe.image }}"
+         data-diet="{{ recipe.diet or 'Mixed' }}"
+         data-time="{{ recipe.time or '-' }}"
+         data-ingredients="{{ recipe.ingredients|join(', ') }}"
+         data-instructions="{{ recipe.instructions }}"
+         onclick="openSpecialModal(this)">
+        <img src="{{ recipe.image }}" alt="{{ recipe.name }}">
+        <div class="caption">
+            <strong>Today's Special:</strong><br>{{ recipe.name }}
+        </div>
     </div>
+    {% endfor %}
+</div>
+
+<!-- Modal -->
+<div id="special-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeSpecialModal()">&times;</span>
+        <h2 id="modal-title"></h2>
+        <img id="modal-img" src="">
+        <p><strong>Diet:</strong> <span id="modal-diet"></span></p>
+        <p><strong>Time:</strong> <span id="modal-time"></span> min</p>
+        <p><strong>Ingredients:</strong> <span id="modal-ingredients"></span></p>
+        <p><strong>Instructions:</strong> <span id="modal-instructions"></span></p>
+    </div>
+</div>
+{% endif %}
+
+<!-- JS for Specials and Modal -->
+<script>
+let currentIndex = 0;
+const slides = document.querySelectorAll(".special-slide");
+
+function showNext() {
+    slides[currentIndex].classList.remove("active");
+    currentIndex = (currentIndex + 1) % slides.length;
+    slides[currentIndex].classList.add("active");
+}
+if (slides.length) setInterval(showNext, 5000);
+
+function openSpecialModal(el) {
+    document.getElementById("modal-title").innerText = el.dataset.name;
+    document.getElementById("modal-img").src = el.dataset.image;
+    document.getElementById("modal-diet").innerText = el.dataset.diet;
+    document.getElementById("modal-time").innerText = el.dataset.time;
+    document.getElementById("modal-ingredients").innerText = el.dataset.ingredients;
+    document.getElementById("modal-instructions").innerText = el.dataset.instructions;
+    document.getElementById("special-modal").style.display = "block";
+}
+function closeSpecialModal() {
+    document.getElementById("special-modal").style.display = "none";
+}
+window.onclick = function(e) {
+    const modal = document.getElementById("special-modal");
+    if (e.target === modal) modal.style.display = "none";
+}
+
+const card = document.getElementById("today-special");
+if (card) {
+    let x = 0, dir = 1;
+    function shake() {
+        if (!card.matches(":hover")) {
+            x += dir * 0.6;
+            if (Math.abs(x) > 5) dir *= -1;
+            card.style.transform = `translate(${x}px, ${Math.sin(x/2)}px)`;
+        }
+        requestAnimationFrame(shake);
+    }
+    shake();
+}
+</script>
+
 </body>
 </html>

@@ -21,9 +21,9 @@
 # ================================================================================
 from flask import Flask, render_template, request
 from flask import send_from_directory
-from utils.data_loader import load_recipes_json
+from utils.data_loader import load_recipes_json, load_image_from_h5
 from utils.recommender import recommend
-import os, random
+import os, random, datetime
 
 # Initialize the Flask application
 app = Flask(__name__)
@@ -31,6 +31,11 @@ app = Flask(__name__)
 # --- Load all Food-101 based recipes ---
 recipes = load_recipes_json("dataset/recipes.json")
 
+
+@app.route("/")
+def index():
+    specials = get_today_specials()
+    return render_template("index.html", specials=specials)
 
 
 @app.route('/dataset/<path:filename>')
@@ -61,14 +66,6 @@ def get_local_image(recipe_name):
     chosen = random.choice(files)
     return f"/dataset/extracted_images/{recipe_name}/{chosen}"
 
-@app.route("/")
-def index():
-    """
-    Function: index
-    Purpose: Render the home page where users can search recipes.
-    Output: Returns index.html template.
-    """
-    return render_template("index.html")
 
 @app.route("/view/<int:recipe_id>")
 def view_recipe(recipe_id):
@@ -82,8 +79,7 @@ def view_recipe(recipe_id):
     if not recipe:
         return "Recipe not found", 404
 
-    #Load image for the specific recipe
-    from main import get_local_image  # only if outside function scope
+    # Load image for the specific recipe
     recipe["image"] = get_local_image(recipe["name"])
 
     return render_template("view.html", recipe=recipe)
@@ -105,23 +101,36 @@ def search():
     difficulty = request.form.get("difficulty", "")
     time_limit = request.form.get("time", "")
 
-   # Step 1: Recommend recipes using text similarity
+    # Step 1: Recommend recipes using text similarity
     results = recommend(query, recipes)
 
     # Step 2: Attach random local images to each result
     for r in results:
         r["image"] = get_local_image(r["name"])
 
-     # Step 3: Apply user-selected filters
+    # Step 3: Apply user-selected filters
     if diet:
         results = [r for r in results if r.get("diet") == diet]
     if difficulty:
         results = [r for r in results if r.get("difficulty") == difficulty]
     if time_limit:
-        results = [r for r in results if r.get("time", 9999) <= int(time_limit)]
-    
+        try:
+            tl = int(time_limit)
+            results = [r for r in results if r.get("time", 9999) <= tl]
+        except ValueError:
+            pass
+
     # Step 4: Display results in the template
     return render_template("results.html", recipes=results)
+
+def get_today_specials(n=5):
+    today = datetime.date.today()
+    random.seed(today.toordinal())
+    sample = random.sample(recipes, min(n, len(recipes)))
+
+    for r in sample:
+        r["image"] = load_image_from_h5("dataset/food_c101_n1000_r384x384x3.h5", r["id"] - 1)
+    return sample
 
 
 if __name__ == "__main__":

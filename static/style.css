@@ -82,6 +82,122 @@ form{margin:0}
 .btn-primary{background:var(--accent);color:#fff}
 .btn-outline{background:transparent;border:1px solid #e5e7eb;color:#111827}
 
+.logo-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 6px 20px rgba(14,30,37,0.08);
+}
+
+
+/* Today's Special Floating Card */
+.floating-card {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--card);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+    overflow: hidden;
+    width: 240px;
+    text-align: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+.floating-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+.floating-card .caption {
+    padding: 10px;
+    font-size: 14px;
+}
+.floating-card:hover {
+    transform: scale(1.05);
+}
+
+.special-slide {
+    display: none;
+    transition: opacity 0.6s ease;
+}
+.special-slide.active {
+    display: block;
+}
+
+.special-slide img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.special-slide .caption {
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* Modal styling is responsive and scrollable to see the instruction */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    overflow-y: auto;
+}
+
+.modal-content {
+    background: var(--card);
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    object-fit: contain;
+    max-height: 60vh;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #000;
+}
+
+/* smooth entrance */
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.95);}
+    to {opacity: 1; transform: scale(1);}
+}
+
+/* mobile adjustment */
+@media (max-width: 600px) {
+    .modal-content {
+        width: 95%;
+        margin: 10% auto;
+        padding: 15px;
+    }
+}
+
 /* responsive tweaks */
 @media (max-width:600px){
     .container{padding:14px}
@@ -92,3 +208,57 @@ form{margin:0}
 /* small utilities */
 .muted{color:var(--muted)}
 .center{text-align:center}
+
+
+/* homepage layout */
+.home-page {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 0;
+    gap: 40px;
+}
+
+.homepage-text {
+    flex: 1;
+    max-width: 480px;
+}
+
+.homepage-text h2 {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.homepage-text p {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.homepage-text .accent {
+    color: var(--accent);
+}
+
+.homepage-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.homepage-image img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+    .home-page {
+        flex-direction: column;
+        text-align: center;
+    }
+    .homepage-image img {
+        max-width: 90%;
+    }
+}
