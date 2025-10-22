@@ -15,7 +15,7 @@
 ### Added 
 - Added get_today_specials() in main.py to show 5 random daily recipes.
 - Updated / route to pass specials list to template, update the style.css and index.html
-
+- Added the logo for SWE_FoodFusion
 
 ## v1.2.0 - 2025-10-07
 ### Added

@@ -4,52 +4,60 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Recipe Recommander</title>
+    <title>SWE_FoodFusion</title>
 </head>
 <body>
-    <div class="container">
-        <header class="app-header">
-            <div class="brand">
-                <span class="logo" aria-hidden="true"></span>
-                <div>
-                    <h1>Recipe Recommander</h1>
-                    <p class="muted">Find recipes by ingredients, diet or time</p>
-                </div>
-            </div>
-            <!-- header search removed to avoid duplicate search buttons; main controls form remains below -->
-        </header>
 
-        <main>
+<!-- Top Brand Header -->
+<header class="main-header">
+    <div class="brand">
+        <img src="{{ url_for('static', filename='swe_foodfusion_logo.png') }}" 
+             alt="SWE FoodFusion Logo" class="logo-img">
+        <div>
+            <h1>SWE_FoodFusion</h1>
+            <p class="muted">Smart Recipe Recommender</p>
+        </div>
+    </div>
+</header>
+
+<!-- home page Section -->
+<div class="container">
+    <main class="home-page">
+        <div class="homepage-text">
+            <h2>Discover recipes with <span class="accent">AI-powered search algorithms</span></h2>
+            <p>Enter your ingredients and let SWE_FoodFusion find the perfect dish for you.</p>
+
             <form action="/search" method="POST" class="controls">
                 <input type="text" name="ingredients" placeholder="e.g. chicken, tomato" style="min-width:220px">
-
                 <select name="diet">
                     <option value="">Any</option>
                     <option value="vegetarian">Vegetarian</option>
                     <option value="vegan">Vegan</option>
                     <option value="non-vegetarian">Non-Vegetarian</option>
                 </select>
-
                 <select name="difficulty">
                     <option value="">Any</option>
                     <option value="easy">Easy</option>
                     <option value="medium">Medium</option>
                     <option value="hard">Hard</option>
                 </select>
-
                 <select name="time">
                     <option value="">No Limit</option>
                     <option value="15">15 min</option>
                     <option value="30">30 min</option>
                     <option value="60">60 min</option>
                 </select>
-
                 <button type="submit" class="btn btn-primary">Search Recipes</button>
             </form>
-        </main>
-    </div>
+        </div>
 
-<!--for the today special section -->
+        <div class="homepage-image">
+            <img src="{{ url_for('static', filename='middle_logoai.png') }}" alt="Food Fusion Visual">
+        </div>
+    </main>
+</div>
+
+<!-- Today’s Special Section -->
 {% if specials %}
 <div id="today-special" class="floating-card">
     {% for recipe in specials %}
@@ -81,12 +89,13 @@
         <p><strong>Instructions:</strong> <span id="modal-instructions"></span></p>
     </div>
 </div>
+{% endif %}
 
+<!-- JS for Specials and Modal -->
 <script>
 let currentIndex = 0;
 const slides = document.querySelectorAll(".special-slide");
 
-// rotation
 function showNext() {
     slides[currentIndex].classList.remove("active");
     currentIndex = (currentIndex + 1) % slides.length;
@@ -94,7 +103,6 @@ function showNext() {
 }
 if (slides.length) setInterval(showNext, 5000);
 
-// open modal
 function openSpecialModal(el) {
     document.getElementById("modal-title").innerText = el.dataset.name;
     document.getElementById("modal-img").src = el.dataset.image;
@@ -112,7 +120,6 @@ window.onclick = function(e) {
     if (e.target === modal) modal.style.display = "none";
 }
 
-// shake animation
 const card = document.getElementById("today-special");
 if (card) {
     let x = 0, dir = 1;
@@ -127,8 +134,6 @@ if (card) {
     shake();
 }
 </script>
-{% endif %}
-
 
 </body>
 </html>

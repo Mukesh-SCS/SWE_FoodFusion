@@ -82,6 +82,15 @@ form{margin:0}
 .btn-primary{background:var(--accent);color:#fff}
 .btn-outline{background:transparent;border:1px solid #e5e7eb;color:#111827}
 
+.logo-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 6px 20px rgba(14,30,37,0.08);
+}
+
+
 /* Today's Special Floating Card */
 .floating-card {
     position: fixed;
@@ -199,3 +208,57 @@ form{margin:0}
 /* small utilities */
 .muted{color:var(--muted)}
 .center{text-align:center}
+
+
+/* homepage layout */
+.home-page {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px 0;
+    gap: 40px;
+}
+
+.homepage-text {
+    flex: 1;
+    max-width: 480px;
+}
+
+.homepage-text h2 {
+    font-size: 28px;
+    margin-bottom: 12px;
+}
+
+.homepage-text p {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.homepage-text .accent {
+    color: var(--accent);
+}
+
+.homepage-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.homepage-image img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+
+/* Responsive */
+@media (max-width: 800px) {
+    .home-page {
+        flex-direction: column;
+        text-align: center;
+    }
+    .homepage-image img {
+        max-width: 90%;
+    }
+}
