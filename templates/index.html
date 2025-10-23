@@ -63,19 +63,20 @@
     {% for recipe in specials %}
     <div class="special-slide {% if loop.index == 1 %}active{% endif %}"
          data-name="{{ recipe.name }}"
-         data-image="{{ recipe.image }}"
+         data-image="{{ url_for('static', filename=recipe.image) }}"
          data-diet="{{ recipe.diet or 'Mixed' }}"
          data-time="{{ recipe.time or '-' }}"
          data-ingredients="{{ recipe.ingredients|join(', ') }}"
          data-instructions="{{ recipe.instructions }}"
          onclick="openSpecialModal(this)">
-        <img src="{{ recipe.image }}" alt="{{ recipe.name }}">
+        <img src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.name }}">
         <div class="caption">
             <strong>Today's Special:</strong><br>{{ recipe.name }}
         </div>
     </div>
     {% endfor %}
 </div>
+
 
 <!-- Modal -->
 <div id="special-modal" class="modal">
@@ -112,6 +113,7 @@ function openSpecialModal(el) {
     document.getElementById("modal-instructions").innerText = el.dataset.instructions;
     document.getElementById("special-modal").style.display = "block";
 }
+
 function closeSpecialModal() {
     document.getElementById("special-modal").style.display = "none";
 }
