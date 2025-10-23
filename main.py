@@ -2,7 +2,7 @@
 # DESCRIPTION:
 #     This Flask web application recommends recipes based on user-input ingredients,
 #     diet preferences, difficulty, and cooking time. It loads recipe data from a
-#     local JSON dataset and displays matching recipes along with random local images.
+#     local CSV dataset (with image paths) and displays matching recipes.
 #
 # USAGE:
 #     Run the app:
@@ -19,98 +19,54 @@
 #
 # Author Info: Code written by SWE_FOODFUSION Team
 # ================================================================================
-from flask import Flask, render_template, request
-from flask import send_from_directory
-from utils.data_loader import load_recipes_json, load_image_from_h5
-from utils.recommender import recommend
-import os, random, datetime
 
-# Initialize the Flask application
+from flask import Flask, render_template, request
+from utils.data_loader import load_recipes_csv
+from utils.recommender import recommend
+import random, datetime
+
+# ------------------------------------------------------------------------------
+# Initialize the Flask web application
+# ------------------------------------------------------------------------------
 app = Flask(__name__)
 
-# --- Load all Food-101 based recipes ---
-recipes = load_recipes_json("dataset/recipes.json")
+# ------------------------------------------------------------------------------
+# Load recipes from the Kaggle dataset (CSV file)
+# This occurs once when the app starts to avoid reloading on each request.
+# ------------------------------------------------------------------------------
+recipes = load_recipes_csv("dataset/Food_Ingredients_and_Recipe_Dataset_with_Image_Name_Mapping.csv")
 
 
+# ------------------------------------------------------------------------------
+# Route: Home page
+# Displays the homepage and today's specials.
+# ------------------------------------------------------------------------------
 @app.route("/")
 def index():
     specials = get_today_specials()
     return render_template("index.html", specials=specials)
 
 
-@app.route('/dataset/<path:filename>')
-def serve_dataset(filename):
-    """
-    Function: serve_dataset
-    Purpose: Serve static files (like images) from the 'dataset' directory.
-    Input: filename (string) - requested file path.
-    Output: Sends the file back to the browser.
-    """
-    return send_from_directory('dataset', filename)
-
-# --- Helper: pick correct local image per recipe ---
-def get_local_image(recipe_name):
-    """
-    Function: get_local_image
-    Purpose: Pick a random image from a folder matching the recipe name.
-    Input: recipe_name (string) - name of the recipe.
-    Output: Returns a relative image path string or None if not found.
-    """
-    folder = os.path.join("dataset", "extracted_images", recipe_name)
-    if not os.path.exists(folder):
-        return None
-    # Find image files in the folder
-    files = [f for f in os.listdir(folder) if f.lower().endswith((".jpg", ".jpeg", ".png"))]
-    if not files:
-        return None
-    chosen = random.choice(files)
-    return f"/dataset/extracted_images/{recipe_name}/{chosen}"
-
-
-@app.route("/view/<int:recipe_id>")
-def view_recipe(recipe_id):
-    """
-    Function: view_recipe
-    Purpose: Display full recipe details for a given recipe ID.
-    Input: recipe_id (int) - unique recipe identifier.
-    Output: Renders view.html with full recipe info.
-    """
-    recipe = next((r for r in recipes if r["id"] == recipe_id), None)
-    if not recipe:
-        return "Recipe not found", 404
-
-    # Load image for the specific recipe
-    recipe["image"] = get_local_image(recipe["name"])
-
-    return render_template("view.html", recipe=recipe)
-
+# ------------------------------------------------------------------------------
+# Route: /search
+# Handles search form submissions.
+# Collects user filters (ingredients, diet, difficulty, time) and returns
+# a list of matching recipes ranked by text similarity.
+# ------------------------------------------------------------------------------
 @app.route("/search", methods=["POST"])
 def search():
-    """
-    Function: search
-    Purpose: Handle recipe search requests from the form input.
-    Steps:
-      1. Collect user inputs (ingredients, diet, difficulty, time)
-      2. Call recommend() to find similar recipes
-      3. Attach corresponding images
-      4. Apply filters for diet, difficulty, and time
-    Output: Renders results.html with a list of filtered recipes.
-    """
+    # --- Collect form inputs ---
     query = request.form.get("ingredients", "")
     diet = request.form.get("diet", "")
     difficulty = request.form.get("difficulty", "")
     time_limit = request.form.get("time", "")
-
-    # Step 1: Recommend recipes using text similarity
+   
+    # --- Step 1: Generate recommendations using text similarity (TF-IDF + cosine) ---
     results = recommend(query, recipes)
 
-    # Step 2: Attach random local images to each result
-    for r in results:
-        r["image"] = get_local_image(r["name"])
-
-    # Step 3: Apply user-selected filters
+    # --- Step 2: Apply user-selected filters ---
     if diet:
-        results = [r for r in results if r.get("diet") == diet]
+        results = [r for r in results if r.get("diet", "").lower() == diet.lower()]
     if difficulty:
         results = [r for r in results if r.get("difficulty") == difficulty]
     if time_limit:
@@ -123,16 +79,35 @@ def search():
     # Step 4: Display results in the template
     return render_template("results.html", recipes=results)
 
+
+# ------------------------------------------------------------------------------
+# Route: /view/<recipe_id>
+# Displays full recipe details (ingredients, instructions, image) for a given recipe.
+# ------------------------------------------------------------------------------
+@app.route("/view/<int:recipe_id>")
+def view_recipe(recipe_id):
+    # Validate index to avoid out-of-range errors
+    if recipe_id < 0 or recipe_id >= len(recipes):
+        return "Recipe not found", 404
+
+    recipe = recipes[recipe_id]
+    return render_template("view.html", recipe=recipe)
+
+
+# ------------------------------------------------------------------------------
+# Helper Function: get_today_specials
+# Selects a random subset of recipes to feature as today's specials.
+# The selection is deterministic for the same date.
+# ------------------------------------------------------------------------------
 def get_today_specials(n=5):
     today = datetime.date.today()
     random.seed(today.toordinal())
     sample = random.sample(recipes, min(n, len(recipes)))
-
-    for r in sample:
-        r["image"] = load_image_from_h5("dataset/food_c101_n1000_r384x384x3.h5", r["id"] - 1)
     return sample
 
 
+# ------------------------------------------------------------------------------
+# Application entry point
+# ------------------------------------------------------------------------------
 if __name__ == "__main__":
-    # Run Flask server in debug mode for local development
     app.run(debug=True)

@@ -1,15 +1,14 @@
-# ---- Python ----
-__pycache__/
+---- Python ----
+pycache/
 
 venv/
 env/
-*.pyc
+.pyc
 
-# ---- Datasets ----
-dataset/*.csv
-dataset/*.h5
-dataset/*.zip
-dataset/extracted_images/
+---- Datasets ----
+dataset/.csv
+dataset/.h5
+dataset/.zip
 #API info
 
-kaggle.json
+static/food_images/*

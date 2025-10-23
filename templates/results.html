@@ -17,14 +17,19 @@
             {% for recipe in recipes %}
             <article class="recipe-card">
                 {% if recipe.image %}
-                <img class="recipe-media" src="{{ recipe.image }}" alt="{{ recipe.name }}">
+                <img class="recipe-media" src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.name }}">
                 {% endif %}
                 <h3 class="recipe-title">{{ recipe.name }}</h3>
-                <div class="recipe-meta"><span class="tag">{{ recipe.diet or 'Mixed' }}</span><span class="muted">{{ recipe.time }} mins</span></div>
+                <div class="recipe-meta">
+                    <span class="tag">{{ recipe.diet or 'Mixed' }}</span>
+                    <span class="muted">{{ recipe.time }} mins</span>
+                </div>
                 <p class="ingredients">{{ recipe.ingredients | join(', ') }}</p>
                 <div class="actions">
                     <a class="btn btn-outline" href="{{ url_for('view_recipe', recipe_id=recipe.id) }}">View</a>
-                    <form method="POST" action="/save/{{ recipe.id }}" style="display:inline"><button class="btn btn-primary">Save</button></form>
+                    <form method="POST" action="/save/{{ recipe.id }}" style="display:inline">
+                        <button class="btn btn-primary">Save</button>
+                    </form>
                 </div>
             </article>
             {% endfor %}
