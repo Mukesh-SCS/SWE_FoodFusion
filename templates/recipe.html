@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>{{ recipe.title }}</title>
+    <title>{{ recipe.name }}</title>
 </head>
 <body>
     <div class="container">
@@ -12,10 +12,13 @@
 
         <div class="recipe-card" style="margin-top:12px">
             {% if recipe.image %}
-            <img class="recipe-media" src="{{ recipe.image }}" alt="{{ recipe.title }}">
+            <img class="recipe-media" src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.name }}">
             {% endif %}
-            <h2 class="recipe-title">{{ recipe.title }}</h2>
-            <div class="recipe-meta"><span class="tag">{{ recipe.diet or 'Mixed' }}</span><span class="muted">{{ recipe.time }} mins</span></div>
+            <h2 class="recipe-title">{{ recipe.name }}</h2>
+            <div class="recipe-meta">
+                <span class="tag">{{ recipe.diet or 'Mixed' }}</span>
+                <span class="muted">{{ recipe.time }} mins</span>
+            </div>
             <h3>Ingredients</h3>
             <ul>
             {% for ing in recipe.ingredients %}

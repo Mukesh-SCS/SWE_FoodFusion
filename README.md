@@ -1,19 +1,17 @@
 # SWE_FoodFusion
 SWE Group Project : FoodFusion 
 
-# Recipe Recommendation Web Application
-Overview
-A recipe recommendation web application built with **Flask** and **Python**.  
-It suggests recipes based on user-provided ingredients, dietary preferences, and cooking time.  
-The app also displays real food images from the **Food-101 data set** dataset (downloaded manually from Kaggle).
+## 🍽️ Recipe Recommendation Web Application
+A Flask-based recipe recommender that suggests dishes based on your available ingredients, dietary preferences, and cooking time.  
+It uses a **Kaggle recipe dataset (with real images)** and a lightweight AI-powered recommendation engine (TF-IDF + cosine similarity).
 
-# Features
-
+## Features
 - Search recipes by ingredients  
-- Filter by diet type (vegetarian, vegan, etc.) and time  
-- View detailed recipe pages with images  
-- Automatically loads Food-41 image dataset from Kaggle  
-- Lightweight recommendation engine using TF-IDF and cosine similarity 
+- Filter by **Diet Type** (Vegan, Vegetarian, Non-Vegetarian, etc.)  
+- Filter by **Cooking Time**  
+- View full recipe details with real images  
+- “Today’s Specials” carousel  
+- AI-enhanced dataset processing (auto diet + time detection)
 - Uploadimage to get food name ( AI train Mobilenet CNN model)
 
 
@@ -35,10 +33,10 @@ recipe_recommendation/
 ├── static/
 │ └── style.css                 # Styling
 └── utils/
-  └── data_loader.py            # JSON/HDF5 loaders
-  └── recommender.py            # Recommendation logic
-  └── image_predictor.py        # AI model for dish prediction 
-  └── train_model.py            # Trains CNN on Food-41 and saves model.h5
+  └──data_loader.py            # JSON/HDF5 loaders
+  └──recommender.py            # Recommendation logic
+  └── image_predictor.py       # AI model for dish prediction 
+  └── train_model.py           # Trains CNN on Food-41 and saves model.h5
 
 ```
 
@@ -63,22 +61,21 @@ source venv/bin/activate    # macOS/Linux
 ```bash
 pip install -r requirements.txt
 ```
-# 🔑 Dataset Setup (Manual Download)
 
-- This app uses the Food-41 dataset for food images.
+#  Dataset Setup (Manual Download)
 
-1. Go to Food-101 Dataset on Kaggle ( link: https://www.kaggle.com/datasets/kmader/food41/data)
-2. Click Download (requires a Kaggle account).
-3. Extract the downloaded archive and locate the file:
-   - ./dataset/food_c101_n1000_r384x384x3.h5
-   
+This project uses the “Food Ingredients and Recipe Dataset with Images” from Kaggle.
+To keep the GitHub repo lightweight, images are not included.
 
-- 🛑 Notes: The .h5 dataset file is large (~600 MB). Do not push it to GitHub.
-            Add this line to your .gitignore:
-```bash
-dataset/*.h5
+# Download from Google Drive
+- Download the zipped image dataset from Google Drive:
+  Link:https://drive.google.com/drive/folders/16xwFuG0FliCA_xMUbknFCk-VeJ-cVT23?usp=sharing
+- Extract it.
+- Move the extracted folder into:
 ```
-- Used extract_imagesFromh5.py to extract all image from .h5 to appear corectly.
+SWE_FoodFusion/static/food_images/
+```
+
 # Run the Application
 ```bash
 python main.py
@@ -88,13 +85,14 @@ python main.py
 
 
 # TECH USING 
-- Python: Flask, pandas, numpy, scikit-learn
+- Backend: Python (Flask, pandas, numpy, scikit-learn)
 - Frontend: HTML, CSS
-- KaggleHub: dataset 
-- h5py: image reading
-- TF-IDF + Cosine Similarity: recommendation algorithm
+- Data: CSV dataset from Kaggle
+- Model: TF-IDF + Cosine Similarity
 
 
 # License
-For educational use only.
-Dataset © Kaggle / Food-101 data set
+For academic and educational use only.
+Dataset © Kaggle / Original creators.
+Food Ingredients and Recipes Dataset with Images: Link (https://www.kaggle.com/datasets/pes12017000148/food-ingredients-and-recipe-dataset-with-images/data)
+Code © SWE_FoodFusion Team.

@@ -10,6 +10,14 @@
 - ( short bullet points )
 ```
 ----------------------------------------------------------------------------------------
+## v1.4.0  - 2025-10-23
+### Added 
+- Added view recipe detail using csv datafile
+- Added recipe data with real image mapping
+
+### Changed
+- Changed the dataset from .json to .csv.
+
 
 ## v1.3.0  - 2025-10-22
 ### Added 
