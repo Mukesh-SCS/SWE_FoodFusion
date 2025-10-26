@@ -10,6 +10,12 @@
 - ( short bullet points )
 ```
 ----------------------------------------------------------------------------------------
+## v1.5.0  - 2025-10-25
+### Added 
+- Added Download as PDF to view page
+- Updated header to add logo. onclick logo returns to homepage
+- Removed Save button from results page
+
 ## v1.4.0  - 2025-10-23
 ### Added 
 - Added view recipe detail using csv datafile
