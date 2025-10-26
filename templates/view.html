@@ -6,9 +6,26 @@
   <title>{{ recipe.name }}</title>
 </head>
 <body>
-  <div class="container">
-    <button class="btn btn-outline" onclick="window.history.back()">⬅ Back</button>
+  <div class="main-header">
+    <div class="brand">
+      <a href="http://127.0.0.1:5000/">
+        <img src="{{ url_for('static', filename='swe_foodfusion_logo.png') }}" 
+             alt="SWE FoodFusion Logo" class="logo-img">
+             </a>
+        <div>
 
+            <h1>SWE_FoodFusion</h1>
+            <p class="muted">Smart Recipe Recommender</p>
+
+        </div>
+    </div>
+
+
+   
+
+  <div class="container" id="recipe">
+   
+<button class="btn btn-outline" onclick="window.history.back()">⬅ Back</button>
     <h1>{{ recipe.name }}</h1>
 
     {% if recipe.image %}
@@ -24,6 +41,24 @@
 
     <p><strong>Ingredients:</strong> {{ recipe.ingredients|join(', ') }}</p>
     <p><strong>Instructions:</strong> {{ recipe.instructions }}</p>
+
+     <div class="action"></div>
+ 
+ <button class="download_pdf" style="display:inline">Download as PDF</button>
+  
+ </div>
+      
   </div>
+ 
+<script type="text/javascript">
+const download_pdf = document.querySelector('.download_pdf'); 
+download_pdf.addEventListener('click', () => {
+  print()
+    alert('Recipe saved successfully!');
+});
+
+  </script>
+
+
 </body>
 </html>
