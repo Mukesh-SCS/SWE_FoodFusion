@@ -67,8 +67,8 @@ def search():
     # --- Step 2: Apply user-selected filters ---
     if diet:
         results = [r for r in results if r.get("diet", "").lower() == diet.lower()]
-    if difficulty:
-        results = [r for r in results if r.get("difficulty") == difficulty]
+    if difficulty and difficulty.lower() != "any":
+        results = [r for r in results if r.get("difficulty", "").lower() == difficulty.lower()]
     if time_limit:
         try:
             tl = int(time_limit)
