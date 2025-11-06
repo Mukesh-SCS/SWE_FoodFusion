@@ -25,18 +25,23 @@ import os
 
 
 # --- Google Drive folder link here ---
-DRIVE_FOLDER_LINK = "PASTE_YOUR_DRIVE_LINK_HERE"
+DRIVE_FOLDER_LINK = "https://drive.google.com/drive/folders/1LdXoaJhB4dry_nIMAlto2_gVrlvdwsU2?usp=sharing"
 
 # Convert shared folder link into base file URL format
 def make_drive_url(file_name):
     """
     Creates a public 'view' link for a file hosted in Google Drive.
-    This assumes files are accessible via anyone-with-link permission.
+    This assumes files are accessible via 'Anyone with the link' permission.
     Example output:
         https://drive.google.com/uc?export=view&id=<FILE_ID>
+    Note:
+        Google Drive folders do not expose <FILE_ID> automatically for each file.
+        This function assumes your files are accessible via a predictable structure.
     """
+    # Generate a pseudo-link based on folder ID for visual placeholders
     base_link = DRIVE_FOLDER_LINK.replace("drive/folders", "uc?export=view&id=")
     return f"{base_link}/{file_name}"
+
 
 
 def load_recipes_csv(path="dataset/Food_Ingredients_and_Recipe_Dataset_with_Image_Name_Mapping.csv"):
