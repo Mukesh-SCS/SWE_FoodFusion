@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <title>SWE_FoodFusion</title>
@@ -70,13 +70,13 @@
   {% for recipe in specials %}
   <div class="special-slide {% if loop.index == 1 %}active{% endif %}"
        data-name="{{ recipe.name }}"
-       data-image="{{ url_for('static', filename=recipe.image) }}"
+       data-image="{{ recipe.image }}"
        data-diet="{{ recipe.diet or 'Mixed' }}"
        data-time="{{ recipe.time or '-' }}"
        data-ingredients="{{ recipe.ingredients|join(', ') }}"
        data-instructions="{{ recipe.instructions }}"
        onclick="openSpecialModal(this)">
-    <img src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.name }}">
+    <img class="recipe-media" src="{{ recipe.image }}" alt="{{ recipe.name }}">
     <div class="caption bottom">{{ recipe.name }}</div>
   </div>
   {% endfor %}

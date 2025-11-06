@@ -29,7 +29,7 @@
     <h1>{{ recipe.name }}</h1>
 
     {% if recipe.image %}
-      <img src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.name }}">
+      <img class="recipe-media" src="{{ recipe.image }}" alt="{{ recipe.name }}">
     {% endif %}
 
     {% if recipe.diet %}

@@ -41,13 +41,15 @@ def load_drive_map():
 
 # --- Convert local image name to Google Drive view URL ---
 def make_drive_url(file_name, file_id_map):
-    """
-    Returns a valid Google Drive view URL if mapping exists,
-    otherwise a fallback image path.
-    """
-    file_id = file_id_map.get(file_name)
+    """Match CSV names to JSON keys even if missing .jpg"""
+    name = file_name.strip()
+    if not name.lower().endswith(".jpg"):
+        name_jpg = name + ".jpg"
+    else:
+        name_jpg = name
+    file_id = file_id_map.get(name_jpg) or file_id_map.get(name)
     if file_id:
-        return f"https://drive.google.com/uc?export=view&id={file_id}"
+        return f"/image/{file_id}"
     return "/static/default.jpg"
 
 

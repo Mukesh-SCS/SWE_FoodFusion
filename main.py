@@ -22,6 +22,8 @@
 
 from flask import Flask, render_template, request
 from PIL import Image
+import requests
+from flask import Response
 from utils.image_predictor import predict_topk
 from utils.data_loader import load_recipes_csv
 from utils.recommender import recommend
@@ -49,6 +51,11 @@ def index():
     return render_template("index.html", specials=specials)
 
 
+@app.route("/image/<file_id>")
+def image_proxy(file_id):
+    url = f"https://drive.google.com/uc?export=view&id={file_id}"
+    r = requests.get(url, stream=True)
+    return Response(r.content, content_type=r.headers.get("Content-Type"))
 # ------------------------------------------------------------------------------
 # Route: /upload
 # Displays the image upload page.
