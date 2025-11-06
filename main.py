@@ -21,6 +21,8 @@
 # ================================================================================
 
 from flask import Flask, render_template, request
+from PIL import Image
+from utils.image_predictor import predict_topk
 from utils.data_loader import load_recipes_csv
 from utils.recommender import recommend
 import random, datetime
@@ -48,6 +50,16 @@ def index():
 
 
 # ------------------------------------------------------------------------------
+# Route: /upload
+# Displays the image upload page.
+# ------------------------------------------------------------------------------
+@app.route("/upload")
+def upload():
+    return render_template("upload.html")  
+
+
+
+# ------------------------------------------------------------------------------
 # Route: /search
 # Handles search form submissions.
 # Collects user filters (ingredients, diet, difficulty, time) and returns
@@ -67,8 +79,8 @@ def search():
     # --- Step 2: Apply user-selected filters ---
     if diet:
         results = [r for r in results if r.get("diet", "").lower() == diet.lower()]
-    if difficulty:
-        results = [r for r in results if r.get("difficulty") == difficulty]
+    if difficulty and difficulty.lower() != "any":
+        results = [r for r in results if r.get("difficulty", "").lower() == difficulty.lower()]
     if time_limit:
         try:
             tl = int(time_limit)
@@ -92,6 +104,23 @@ def view_recipe(recipe_id):
 
     recipe = recipes[recipe_id]
     return render_template("view.html", recipe=recipe)
+
+# ------------------------------------------------------------------------------
+# Route: /predict
+# Handles image upload and predicts the recipe using a pre-trained model.
+# ------------------------------------------------------------------------------
+@app.route("/predict", methods=["POST"])
+def predict():
+    f = request.files.get("image")
+    if not f:
+        return ("No file", 400)
+    pil = Image.open(f.stream)
+    preds = predict_topk(pil, k=3)
+    best, conf = preds[0]
+    result = {"top3": preds, "label": best, "confidence": conf}
+    if conf < 0.45:
+        result["label"] = "Unknown"
+    return render_template("prediction.html", result=result)
 
 
 # ------------------------------------------------------------------------------

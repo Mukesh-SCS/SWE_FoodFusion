@@ -26,6 +26,9 @@ def load_recipes_csv(path="dataset/Food_Ingredients_and_Recipe_Dataset_with_Imag
     df = pd.read_csv(path)
     df["Image_Name"] = df["Image_Name"].astype(str).str.strip()
 
+    if "Time" in df.columns:
+        df["Time"] = pd.to_numeric(df["Time"], errors="coerce").fillna(9999)
+
     # Build a fast lookup set of available images
     image_dir = os.path.join("static", "food_images")
     all_images = {f.lower() for f in os.listdir(image_dir) if f.lower().endswith(".jpg")}
@@ -44,11 +47,25 @@ def load_recipes_csv(path="dataset/Food_Ingredients_and_Recipe_Dataset_with_Imag
             return f"food_images/{dash}"
         # fallback
         return "food_images/default.jpg"
+    
+    def get_difficulty(t):
+        try:
+            t = float(t)
+        except:
+            return "Unknown"
+        if t <= 30:
+            return "Easy"
+        elif 30 <= t < 60:
+            return "Medium"
+        else:
+            return "Hard"
 
     df["image"] = df["Image_Name"].apply(get_image)
 
+
     recipes = []
     for i, row in df.iterrows():
+        time_val = float(row.get("Time", 0)) if not pd.isna(row.get("Time")) else 0
         recipes.append({
             "id": i,
             "name": row.get("Title", "Unknown Recipe"),
@@ -56,6 +73,7 @@ def load_recipes_csv(path="dataset/Food_Ingredients_and_Recipe_Dataset_with_Imag
             "instructions": row.get("Instructions", "No instructions provided."),
             "image": row["image"],
             "diet": row.get("Diet", "Mixed"),
-            "time": "-"
+            "time": time_val,
+            "difficulty": get_difficulty(time_val)
         })
     return recipes

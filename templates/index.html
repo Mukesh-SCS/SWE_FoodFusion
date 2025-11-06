@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <title>SWE_FoodFusion</title>
 </head>
 <body>
@@ -41,7 +42,7 @@
                     <option value="medium">Medium</option>
                     <option value="hard">Hard</option>
                 </select>
-                <select name="time">
+                <select name="time"> 
                     <option value="">No Limit</option>
                     <option value="15">15 min</option>
                     <option value="30">30 min</option>
@@ -49,6 +50,12 @@
                 </select>
                 <button type="submit" class="btn btn-primary">Search Recipes</button>
             </form>
+            <!-- Upload Button (bottom center) -->
+              <div class="upload-section">
+                    <a href="/upload" class="btn-upload">
+                        <i class="fa-solid fa-camera icon"></i> Upload Food Image
+                    </a>
+                </div>
         </div>
 
         <div class="homepage-image">
@@ -76,7 +83,6 @@
     </div>
     {% endfor %}
 </div>
-
 
 <!-- Modal -->
 <div id="special-modal" class="modal">

@@ -10,6 +10,25 @@
 - ( short bullet points )
 ```
 ----------------------------------------------------------------------------------------
+## v1.6.0 – 2025-11-05
+### Added
+- Added train_from_csv.py for CSV-based image training using MobileNetV2
+- Added convert_to_onnx.py to export .h5 → .onnx for ONNX Runtime inference
+- Added image_predictor.py for fast ONNX-based predictions
+- Added responsive Upload Food Image button and Font Awesome camera icon to homepage
+
+## Fixed
+- Added .jpg extension handling for image paths
+- Filtered out single-sample classes to prevent stratify errors
+- Synced label mappings between training and validation generators
+- Replaced deprecated train_gen.num_classes with len(train_gen.class_indices)
+- Fixed the Diet and time display for recipe view.
+
+## Updated
+- Improved responsive CSS layout with media queries
+- Cleaned and documented all scripts with clear headers and usage details
+- Updated requirements.txt with stable versions and comments
+
 ## v1.5.0  - 2025-10-25
 ### Added 
 - Added Download as PDF to view page

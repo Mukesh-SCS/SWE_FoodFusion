@@ -1,6 +1,7 @@
 ---- Python ----
 pycache/
 
+.venv/
 venv/
 env/
 .pyc
@@ -12,3 +13,4 @@ dataset/.zip
 #API info
 
 static/food_images/*
+utils/__pycache__ 

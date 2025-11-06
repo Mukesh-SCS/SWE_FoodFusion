@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Dish Image</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="brand">
+      <img src="{{ url_for('static', filename='swe_foodfusion_logo.png') }}" alt="SWE FoodFusion Logo" class="logo-img">
+      <h1>SWE_FoodFusion</h1>
+    </div>
+
+    <div class="card center">
+      <h2>Recognize Dish</h2>
+      <p>Discover the dish name instantly using AI-powered recognition</p>
+
+      <form action="/predict" method="post" enctype="multipart/form-data" class="upload-form">
+        <input type="file" name="image" accept="image/*" required class="file-input">
+        <button type="submit" class="btn-Dish">Analyze Dish</button>
+      </form>
+      <br>
+      <a href="/" class="btn-outline" style="margin-top:1rem;"> Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>
