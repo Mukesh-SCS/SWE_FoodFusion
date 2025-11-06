@@ -10,6 +10,11 @@
 - ( short bullet points )
 ```
 ----------------------------------------------------------------------------------------
+## v1.6.1 – 2025-11-06
+### Changed
+- Changed the layout for the `Today's Special` feature , make it responsive according to screen size
+- Add the neon light around circle to look more attractive 
+
 ## v1.6.0 – 2025-11-05
 ### Added
 - Added train_from_csv.py for CSV-based image training using MobileNetV2
