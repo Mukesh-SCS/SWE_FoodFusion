@@ -65,23 +65,21 @@
 </div>
 
 <!-- Today’s Special Section -->
-{% if specials %}
 <div id="today-special" class="floating-card">
-    {% for recipe in specials %}
-    <div class="special-slide {% if loop.index == 1 %}active{% endif %}"
-         data-name="{{ recipe.name }}"
-         data-image="{{ url_for('static', filename=recipe.image) }}"
-         data-diet="{{ recipe.diet or 'Mixed' }}"
-         data-time="{{ recipe.time or '-' }}"
-         data-ingredients="{{ recipe.ingredients|join(', ') }}"
-         data-instructions="{{ recipe.instructions }}"
-         onclick="openSpecialModal(this)">
-        <img src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.name }}">
-        <div class="caption">
-            <strong>Today's Special:</strong><br>{{ recipe.name }}
-        </div>
-    </div>
-    {% endfor %}
+  <div class="outer-label">Today's Special</div>
+  {% for recipe in specials %}
+  <div class="special-slide {% if loop.index == 1 %}active{% endif %}"
+       data-name="{{ recipe.name }}"
+       data-image="{{ url_for('static', filename=recipe.image) }}"
+       data-diet="{{ recipe.diet or 'Mixed' }}"
+       data-time="{{ recipe.time or '-' }}"
+       data-ingredients="{{ recipe.ingredients|join(', ') }}"
+       data-instructions="{{ recipe.instructions }}"
+       onclick="openSpecialModal(this)">
+    <img src="{{ url_for('static', filename=recipe.image) }}" alt="{{ recipe.name }}">
+    <div class="caption bottom">{{ recipe.name }}</div>
+  </div>
+  {% endfor %}
 </div>
 
 <!-- Modal -->
@@ -96,7 +94,7 @@
         <p><strong>Instructions:</strong> <span id="modal-instructions"></span></p>
     </div>
 </div>
-{% endif %}
+
 
 <!-- JS for Specials and Modal -->
 <script>
@@ -105,10 +103,16 @@ const slides = document.querySelectorAll(".special-slide");
 
 function showNext() {
     slides[currentIndex].classList.remove("active");
+    slides[currentIndex].style.pointerEvents = "none"; // disable click on hidden
     currentIndex = (currentIndex + 1) % slides.length;
     slides[currentIndex].classList.add("active");
+    slides[currentIndex].style.pointerEvents = "auto"; // enable only active
 }
-if (slides.length) setInterval(showNext, 5000);
+if (slides.length) {
+    slides.forEach(s => s.style.pointerEvents = "none");
+    slides[0].style.pointerEvents = "auto";
+    setInterval(showNext, 5000);
+}
 
 function openSpecialModal(el) {
     document.getElementById("modal-title").innerText = el.dataset.name;
@@ -126,21 +130,7 @@ function closeSpecialModal() {
 window.onclick = function(e) {
     const modal = document.getElementById("special-modal");
     if (e.target === modal) modal.style.display = "none";
-}
-
-const card = document.getElementById("today-special");
-if (card) {
-    let x = 0, dir = 1;
-    function shake() {
-        if (!card.matches(":hover")) {
-            x += dir * 0.6;
-            if (Math.abs(x) > 5) dir *= -1;
-            card.style.transform = `translate(${x}px, ${Math.sin(x/2)}px)`;
-        }
-        requestAnimationFrame(shake);
-    }
-    shake();
-}
+};
 </script>
 
 </body>

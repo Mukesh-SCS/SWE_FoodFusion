@@ -4,6 +4,8 @@
     --muted: #6b7280;
     --accent: #ef6c3c;
     --accent-2: #4CAF50;
+    --electric:#ff0066;
+    --sunset:#ffcc00;
     --radius: 12px;
     --glass: rgba(255,255,255,0.6);
 }
@@ -97,51 +99,188 @@ form{margin:0}
 }
 
 
-/* Today's Special Floating Card */
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .floating-card {
+        width: 180px;
+        height: 180px;
+        bottom: 20px;
+        right: 20px;
+    }
+    .floating-card .caption {
+        font-size: 12px;
+        padding: 6px;
+    }
+}
+@media (max-width: 480px) {
+    .floating-card {
+        width: 150px;
+        height: 150px;
+        bottom: 15px;
+        right: 15px;
+    }
+    .floating-card .caption {
+        font-size: 11px;
+    }
+}
+
+/* ===============================
+   TODAY'S SPECIAL — Neon Circle
+   =============================== */
 .floating-card {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: var(--card);
-    border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.25);
-    overflow: hidden;
-    width: 240px;
-    text-align: center;
-    z-index: 1000;
-    cursor: pointer;
-}
-.floating-card img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-}
-.floating-card .caption {
-    padding: 10px;
-    font-size: 14px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  overflow: visible;
+  background: radial-gradient(circle at center, #fff 0%, #fefefe 40%, #111 100%);
+  box-shadow:
+    0 0 25px rgba(255, 255, 255, 0.9),
+    0 0 45px var(--accent),
+    0 0 90px var(--accent-2),
+    0 0 120px rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  z-index: 1000;
+  animation: pulseGlow 2.5s infinite alternate ease-in-out;
+  transition: transform 0.4s ease, box-shadow 0.3s ease;
 }
 .floating-card:hover {
-    transform: scale(1.05);
+  transform: scale(1.08);
+  animation-play-state: paused;
+}
+.floating-card img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.floating-card:hover img {
+  transform: scale(1.07);
 }
 
+/* Outer label — "Today's Special" above circle */
+.outer-label {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -10px);
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  padding: 7px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  box-shadow:
+    0 0 12px var(--accent),
+    0 0 28px var(--accent-2),
+    0 0 45px rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  z-index: 2;
+  animation: floatLabel 3s ease-in-out infinite alternate;
+}
+
+/* Floating animation for outer label */
+@keyframes floatLabel {
+  0% { transform: translate(-50%, -10px); }
+  100% { transform: translate(-50%, -4px); }
+}
+
+/* Bottom caption inside the circle (Dish Name) */
+.floating-card .caption.bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+  padding: 20px 0 10px 0;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  font-size: 15px;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+}
+
+/* Slide fade transition between 5 dishes */
 .special-slide {
-    display: none;
-    transition: opacity 0.6s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 .special-slide.active {
-    display: block;
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.special-slide img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
+.outer-label {
+  pointer-events: none; 
 }
 
-.special-slide .caption {
-    padding: 10px;
-    font-size: 14px;
+
+/* Brighter Neon Glow Animation */
+@keyframes pulseGlow {
+  0% {
+    box-shadow:
+      0 0 30px rgba(255, 255, 255, 0.9),
+      0 0 55px var(--electric),
+      0 0 100px var(--sunset),
+      0 0 130px rgba(255, 255, 255, 0.8);
+  }
+  100% {
+    box-shadow:
+      0 0 40px rgba(255, 255, 255, 1),
+      0 0 80px var(--sunset),
+      0 0 160px var(--electric),
+      0 0 200px rgba(255, 255, 255, 0.9);
+  }
 }
+
+/* Responsive sizing */
+@media (max-width: 768px) {
+  .floating-card {
+    width: 180px;
+    height: 180px;
+    bottom: 20px;
+    right: 20px;
+  }
+  .outer-label {
+    font-size: 13px;
+    padding: 5px 12px;
+  }
+  .floating-card .caption.bottom {
+    font-size: 12px;
+    padding: 15px 0 8px 0;
+  }
+}
+@media (max-width: 480px) {
+  .floating-card {
+    width: 150px;
+    height: 150px;
+    bottom: 15px;
+    right: 15px;
+  }
+  .outer-label {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  .floating-card .caption.bottom {
+    font-size: 11px;
+  }
+}
+
+
 
 /* Modal styling is responsive and scrollable to see the instruction */
 .modal {
@@ -455,7 +594,7 @@ form{margin:0}
   }
 
   .homepage-image img {
-    display: none; /* hide big image on very small screens for cleaner layout */
+    display: none; 
   }
 
   .upload-section {
