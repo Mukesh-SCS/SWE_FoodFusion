@@ -38,9 +38,14 @@ app = Flask(__name__)
 # Load recipes from the Kaggle dataset (CSV file)
 # This occurs once when the app starts to avoid reloading on each request.
 # ------------------------------------------------------------------------------
-recipes = load_recipes_csv("dataset/Food_Ingredients_and_Recipe_Dataset_with_Image_Name_Mapping.csv")
+recipes = None #load_recipes_csv("dataset/Food_Ingredients_and_Recipe_Dataset_with_Image_Name_Mapping.csv")
 
-
+@app.before_first_request
+def load_data_once():
+    global recipes
+    if recipes is None:
+        recipes = load_recipes_csv("dataset/Food_Ingredients_and_Recipe_Dataset_with_Image_Name_Mapping.csv")
+        print(" Recipes loaded successfully")
 # ------------------------------------------------------------------------------
 # Route: Home page
 # Displays the homepage and today's specials.
@@ -136,14 +141,17 @@ def predict():
 # The selection is deterministic for the same date.
 # ------------------------------------------------------------------------------
 def get_today_specials(n=5):
+    global recipes
+    if not recipes:
+        return []
     today = datetime.date.today()
     random.seed(today.toordinal())
-    sample = random.sample(recipes, min(n, len(recipes)))
-    return sample
+    return random.sample(recipes, min(n, len(recipes)))
 
 
 # ------------------------------------------------------------------------------
 # Application entry point
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
+
