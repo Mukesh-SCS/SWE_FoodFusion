@@ -21,6 +21,8 @@
 # ================================================================================
 
 from flask import Flask, render_template, request
+from PIL import Image
+from utils.image_predictor import predict_topk
 from utils.data_loader import load_recipes_csv
 from utils.recommender import recommend
 import random, datetime
@@ -45,6 +47,16 @@ recipes = load_recipes_csv("dataset/Food_Ingredients_and_Recipe_Dataset_with_Ima
 def index():
     specials = get_today_specials()
     return render_template("index.html", specials=specials)
+
+
+# ------------------------------------------------------------------------------
+# Route: /upload
+# Displays the image upload page.
+# ------------------------------------------------------------------------------
+@app.route("/upload")
+def upload():
+    return render_template("upload.html")  
+
 
 
 # ------------------------------------------------------------------------------
@@ -92,6 +104,23 @@ def view_recipe(recipe_id):
 
     recipe = recipes[recipe_id]
     return render_template("view.html", recipe=recipe)
+
+# ------------------------------------------------------------------------------
+# Route: /predict
+# Handles image upload and predicts the recipe using a pre-trained model.
+# ------------------------------------------------------------------------------
+@app.route("/predict", methods=["POST"])
+def predict():
+    f = request.files.get("image")
+    if not f:
+        return ("No file", 400)
+    pil = Image.open(f.stream)
+    preds = predict_topk(pil, k=3)
+    best, conf = preds[0]
+    result = {"top3": preds, "label": best, "confidence": conf}
+    if conf < 0.45:
+        result["label"] = "Unknown"
+    return render_template("prediction.html", result=result)
 
 
 # ------------------------------------------------------------------------------
