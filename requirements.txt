@@ -6,4 +6,11 @@ scikit-learn
 h5py
 pillow
 python-dotenv
+
+# ML / training only
+tensorflow
 onnxruntime
+opencv-python
+tf2onnx
+matplotlib
+seaborn
