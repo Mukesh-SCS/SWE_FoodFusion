@@ -1,6 +1,7 @@
 # ---- Core Web Framework ----
 Flask                           # Stable Flask release for web app backend
 gunicorn                        # Production WSGI server for Flask applications
+requests                        # HTTP requests for API calls (if needed)
 # ---- Machine Learning / Data Processing ----
 pandas                          # DataFrame handling and CSV reading
 numpy                           # Core numerical computations
