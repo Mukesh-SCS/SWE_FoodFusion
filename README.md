@@ -22,21 +22,30 @@ recipe_recommendation/
 ├── main.py                         # Main Flask app
 ├── requirements.txt                # Dependencies
 ├── CHANGELOG.md                    # CHANGELOG
+├── .gitignore                   
+├── Readme.md                        
 ├── dataset/                 
-│ └── recipes.json                  # Recipe dataset (text)
-│ └── food_c101_n1000_r384x384x3.h5 # Image dataset (auto-downloaded)
+│ └── food_c101_n1000_r384x384x3.h5  # Image dataset (auto-downloaded)
+├── model/                 
+│ └── foodfusion_mnv2.h5             # train model from CSV and images               
+│ └── foodfusion_mnv2.onnx           # convert from train model to onnx to run fast to predictor
+│ └── lables.txt                     # name of the recipe
 ├── templates/
 │ ├── index.html                # Search form
 │ ├── results.html              # Search results
 │ └── recipe.html               # Single recipe page
 │ └── upload.html               # Image upload and AI prediction page 
+│ └── prediction.html           # AI prediction page 
+│ └── view.html                 # view page 
 ├── static/
 │ └── style.css                 # Styling
+│ └── food_images               # images to display
+│ └── user_upload_images        # Store the user image 
 └── utils/
   └──data_loader.py            # JSON/HDF5 loaders
   └──recommender.py            # Recommendation logic
   └── image_predictor.py       # AI model for dish prediction 
-  └── train_model.py           # Trains CNN on Food-41 and saves model.h5
+  └── train_from_csv.py           # Trains CNN on Food-41 and saves model.h5
 
 ```
 
