@@ -1,16 +1,23 @@
-Flask
-gunicorn
-numpy
-pandas
-scikit-learn
-h5py
-pillow
-python-dotenv
-
-# ML / training only
-tensorflow
-onnxruntime
-opencv-python
+# ---- Core Web Framework ----
+Flask                           # Stable Flask release for web app backend
+gunicorn                        # Production WSGI server for Flask applications
+# ---- Machine Learning / Data Processing ----
+pandas                          # DataFrame handling and CSV reading
+numpy                           # Core numerical computations
+scikit-learn                    # Dataset splitting and preprocessing utilities
+onnxruntime                     # Fast ONNX inference runtime for production
+opencv-python                   # Image loading and resizing (optional for preprocessing)
+tensorflow                      # Training / loading Keras (.h5) models
 tf2onnx
-matplotlib
-seaborn
+# ---- Data Loading ----
+h5py                            # Reads and writes HDF5 (.h5) model files
+
+# ---- Visualization ( model evaluation) ----
+matplotlib                      # Charts and training plots
+seaborn                         # Stylish data visualizations
+
+# ---- Image Processing ----
+pillow                          # PIL-based image handling for uploads/prediction
+
+# ---- Environment Variables ----
+python-dotenv                   # For managing environment variables (.env files)

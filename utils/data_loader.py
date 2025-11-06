@@ -3,47 +3,55 @@
 #     This module handles loading recipe data and images for the Recipe Recommendation
 #     Web Application. It provides helper functions to read recipe datasets in JSON or
 #     CSV format and prepares them for use in the recommender engine.
-#     Modified version for Google Drive image hosting.
-#     Reads recipe CSV and maps Image_Name to public Drive URLs instead of local static files.
+#     Modified version for Google Drive image hosting using dynamic drive_map.json.
 #
 # USAGE:
 #     Import functions into other scripts such as main.py:
-#         from utils.data_loader import load_recipes_csv, load_recipes_json
+#         from utils.data_loader import load_recipes_csv
 #
 # OUTPUTS:
-#     - Returns Python data structures (lists/dictionaries)
-#     - Returns image file paths for HTML rendering
+#     - Returns list of recipe dictionaries with Google Drive image URLs
 #
-# ARGUMENTS:
-#     - path: File path to JSON or CSV datasets
+# DEPENDENCIES:
+#     Requires: dataset/drive_map.json
+#     Format:
+#     {
+#       "apple_pie.jpg": "1AbCdEfGhIjKlmNoPqR",
+#       "chicken_curry.jpg": "2XyZlMnOpQrStUvWxYz"
+#     }
 #
 # Author Info: Code written by SWE_FOODFUSION Team
 # ================================================================================
 
 import pandas as pd
 import os
+import json
 
+# --- Path to the image ID mapping file ---
+DRIVE_MAP_PATH = "dataset/drive_map.json"
 
-# --- Google Drive folder link here ---
-DRIVE_FOLDER_LINK = "https://drive.google.com/drive/folders/1LdXoaJhB4dry_nIMAlto2_gVrlvdwsU2?usp=sharing"
+# --- Load mapping once ---
+def load_drive_map():
+    if os.path.exists(DRIVE_MAP_PATH):
+        with open(DRIVE_MAP_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    else:
+        print(" Warning: drive_map.json not found. Using default placeholder images.")
+        return {}
 
-# Convert shared folder link into base file URL format
-def make_drive_url(file_name):
+# --- Convert local image name to Google Drive view URL ---
+def make_drive_url(file_name, file_id_map):
     """
-    Creates a public 'view' link for a file hosted in Google Drive.
-    This assumes files are accessible via 'Anyone with the link' permission.
-    Example output:
-        https://drive.google.com/uc?export=view&id=<FILE_ID>
-    Note:
-        Google Drive folders do not expose <FILE_ID> automatically for each file.
-        This function assumes your files are accessible via a predictable structure.
+    Returns a valid Google Drive view URL if mapping exists,
+    otherwise a fallback image path.
     """
-    # Generate a pseudo-link based on folder ID for visual placeholders
-    base_link = DRIVE_FOLDER_LINK.replace("drive/folders", "uc?export=view&id=")
-    return f"{base_link}/{file_name}"
+    file_id = file_id_map.get(file_name)
+    if file_id:
+        return f"https://drive.google.com/uc?export=view&id={file_id}"
+    return "/static/default.jpg"
 
 
-
+# --- Main loader function ---
 def load_recipes_csv(path="dataset/Food_Ingredients_and_Recipe_Dataset_with_Image_Name_Mapping.csv"):
     df = pd.read_csv(path)
     df["Image_Name"] = df["Image_Name"].astype(str).str.strip()
@@ -51,9 +59,13 @@ def load_recipes_csv(path="dataset/Food_Ingredients_and_Recipe_Dataset_with_Imag
     if "Time" in df.columns:
         df["Time"] = pd.to_numeric(df["Time"], errors="coerce").fillna(9999)
 
-    # Replace local static paths with Google Drive URLs
-    df["image"] = df["Image_Name"].apply(make_drive_url)
+    # Load the Drive ID map
+    file_id_map = load_drive_map()
 
+    # Build full Google Drive URLs
+    df["image"] = df["Image_Name"].apply(lambda x: make_drive_url(x, file_id_map))
+
+    # Determine difficulty level from time
     def get_difficulty(t):
         try:
             t = float(t)
@@ -66,6 +78,7 @@ def load_recipes_csv(path="dataset/Food_Ingredients_and_Recipe_Dataset_with_Imag
         else:
             return "Hard"
 
+    # Build recipe list
     recipes = []
     for i, row in df.iterrows():
         time_val = float(row.get("Time", 0)) if not pd.isna(row.get("Time")) else 0

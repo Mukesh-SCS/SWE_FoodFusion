@@ -14,3 +14,6 @@ dataset/.zip
 
 static/food_images/*
 utils/__pycache__ 
+
+credentials.json
+*.pem
