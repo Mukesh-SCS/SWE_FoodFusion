@@ -10,6 +10,10 @@
 - ( short bullet points )
 ```
 ----------------------------------------------------------------------------------------
+## v1.5.1  - 2025-11-05
+### Fixed
+- Fixed the Diet and time display for recipe view.
+  
 ## v1.5.0  - 2025-10-25
 ### Added 
 - Added Download as PDF to view page
