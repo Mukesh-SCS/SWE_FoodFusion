@@ -40,12 +40,17 @@ app = Flask(__name__)
 # ------------------------------------------------------------------------------
 recipes = None #load_recipes_csv("dataset/Food_Ingredients_and_Recipe_Dataset_with_Image_Name_Mapping.csv")
 
-@app.before_first_request
+recipes = None
+data_loaded = False
+
+@app.before_request
 def load_data_once():
-    global recipes
-    if recipes is None:
+    global recipes, data_loaded
+    if not data_loaded:
         recipes = load_recipes_csv("dataset/Food_Ingredients_and_Recipe_Dataset_with_Image_Name_Mapping.csv")
+        data_loaded = True
         print(" Recipes loaded successfully")
+
 # ------------------------------------------------------------------------------
 # Route: Home page
 # Displays the homepage and today's specials.
