@@ -10,6 +10,10 @@
 - ( short bullet points )
 ```
 ----------------------------------------------------------------------------------------
+## v1.7.0 – 2025-11-07
+### Changed
+- Changed `recommender.py`includes preprocessing, caching for performance, and weighted scoring for diet, difficulty, and cooking time filters.
+
 ## v1.6.1 – 2025-11-06
 ### Changed
 - Changed the layout for the `Today's Special` feature , make it responsive according to screen size
@@ -17,9 +21,9 @@
 
 ## v1.6.0 – 2025-11-05
 ### Added
-- Added train_from_csv.py for CSV-based image training using MobileNetV2
-- Added convert_to_onnx.py to export .h5 → .onnx for ONNX Runtime inference
-- Added image_predictor.py for fast ONNX-based predictions
+- Added `train_from_csv.py` for CSV-based image training using MobileNetV2
+- Added `convert_to_onnx.py` to export .h5 → .onnx for ONNX Runtime inference
+- Added `image_predictor.py` for fast ONNX-based predictions
 - Added responsive Upload Food Image button and Font Awesome camera icon to homepage
 
 ## Fixed
