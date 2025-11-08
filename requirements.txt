@@ -22,6 +22,7 @@ pillow==10.3.0               # PIL-based image handling for uploads/prediction
 
 # ---- Environment Variables ----
 python-dotenv==1.0.1         # For managing environment variables (.env files)
+Flask-Testing                # Testing utilities for Flask applications
 
 # ---- Recommended ----
 # Always install these packages inside a virtual environment (venv)

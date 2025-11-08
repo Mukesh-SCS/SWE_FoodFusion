@@ -14,3 +14,5 @@ dataset/.zip
 
 static/food_images/*
 utils/__pycache__ 
+tests/__pycache__
+__pycache__
