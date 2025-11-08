@@ -1,5 +1,7 @@
 # SWE_FoodFusion
-SWE Group Project : FoodFusion 
+**SWE Group Project : FoodFusion**   
+
+## Deployed Version:👉 https://swe-foodfusion.onrender.com
 
 ## 🍽️ Recipe Recommendation Web Application
 A Flask-based recipe recommender that suggests dishes based on your available ingredients, dietary preferences, and cooking time.  
@@ -42,10 +44,15 @@ recipe_recommendation/
 │ └── food_images               # images to display
 │ └── user_upload_images        # Store the user image 
 └── utils/
-  └──data_loader.py            # JSON/HDF5 loaders
-  └──recommender.py            # Recommendation logic
-  └── image_predictor.py       # AI model for dish prediction 
-  └── train_from_csv.py           # Trains CNN on Food-41 and saves model.h5
+│  └──data_loader.py            # JSON/HDF5 loaders
+│ └──recommender.py            # Recommendation logic
+│ └── image_predictor.py       # AI model for dish prediction 
+│ └── train_from_csv.py        # Trains CNN on Food images 13k approx and saves model.h5
+│
+└── tests/
+    ├── test_recommender.py
+    ├── test_routes.py
+    └── test_data_loader.py
 
 ```
 
@@ -59,8 +66,8 @@ recipe_recommendation/
 
 2. **Create and activate a virtual environment**
 ```bash
-python -m venv venv
-venv\Scripts\activate       # Windows
+python -m venv .venv
+.venv\Scripts\activate       # Windows
 # or
 source venv/bin/activate    # macOS/Linux
 
@@ -69,6 +76,7 @@ source venv/bin/activate    # macOS/Linux
 2. **Install dependencies**
 ```bash
 pip install -r requirements.txt
+
 ```
 
 #  Dataset Setup (Manual Download)
@@ -86,11 +94,24 @@ SWE_FoodFusion/static/food_images/
 ```
 
 # Run the Application
+
+You can run the project locally or use the hosted version.
+
+### Option 1: Run Locally
+
 ```bash
 python main.py
-
 ```
-- Open your browser at: http://127.0.0.1:5000/
+
+Then open your browser at: http://127.0.0.1:5000
+
+# NOTE: ONLY FOR INSTRUCTOR
+
+# Option 2: Use the Deployed Version
+
+No installation needed.
+Access the live web application here:
+👉 https://swe-foodfusion.onrender.com
 
 
 # TECH USING 
