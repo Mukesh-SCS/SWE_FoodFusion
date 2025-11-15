@@ -10,6 +10,18 @@
 - ( short bullet points )
 ```
 ----------------------------------------------------------------------------------------
+## v1.8.1 – 2025-11-15
+### Fixed 
+- Fixed the main.py code for uploading and analyze the AI result page 
+
+## v1.8.0 – 2025-11-15
+### Added 
+- Added error conditions for when no recipe results are found for the user
+
+## v1.7.0 – 2025-11-07
+### Changed
+- Changed `recommender.py`includes preprocessing, caching for performance, and weighted scoring for diet, difficulty, and cooking time filters.
+
 ## v1.6.1 – 2025-11-06
 ### Changed
 - Changed the layout for the `Today's Special` feature , make it responsive according to screen size

@@ -21,6 +21,7 @@
 # ================================================================================
 
 from flask import Flask, render_template, request
+from utils.data_loader import suggest_no_results
 from PIL import Image
 import requests
 from flask import Response
@@ -82,22 +83,22 @@ def upload():
 # Collects user filters (ingredients, diet, difficulty, time) and returns
 # a list of matching recipes ranked by text similarity.
 # ------------------------------------------------------------------------------
-@app.route("/search", methods=["POST"])
+@app.route("/search", methods=["GET", "POST"])
 def search():
     # --- Collect form inputs ---
-    query = request.form.get("ingredients", "")
+    search_ingredients = request.form.get("ingredients", "")  # adapt to your form field
     diet = request.form.get("diet", "")
     difficulty = request.form.get("difficulty", "")
     time_limit = request.form.get("time", "")
    
     # --- Step 1: Generate recommendations using text similarity (TF-IDF + cosine) ---
-    results = recommend(query, recipes)
+    results = recommend(search_ingredients, recipes)
 
     # --- Step 2: Apply user-selected filters ---
     if diet:
         results = [r for r in results if r.get("diet", "").lower() == diet.lower()]
-    if difficulty and difficulty.lower() != "any":
-        results = [r for r in results if r.get("difficulty", "").lower() == difficulty.lower()]
+    if difficulty:
+        results = [r for r in results if r.get("difficulty") == difficulty]
     if time_limit:
         try:
             tl = int(time_limit)
@@ -106,7 +107,11 @@ def search():
             pass
 
     # Step 4: Display results in the template
-    return render_template("results.html", recipes=results)
+    no_results_message = None
+    if not results:
+        no_results_message = suggest_no_results(ingredients=search_ingredients, filters={"diet": diet, "max_time": time_limit})
+
+    return render_template("results.html", recipes=results, no_results_message=no_results_message)
 
 
 # ------------------------------------------------------------------------------

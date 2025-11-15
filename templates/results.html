@@ -13,6 +13,24 @@
             <button onclick="window.history.back()" class="btn btn-outline">⬅ Back</button>
         </div>
 
+        <h2>Search Results</h2>
+
+{% if no_results_message %}
+  <div class="alert alert-info" role="status">
+    {{ no_results_message }}
+  </div>
+{% endif %}
+
+{% if recipes %}
+  <!-- render list of recipe cards -->
+  {% for r in recipes %}
+    <!-- recipe card markup -->
+  {% endfor %}
+{% else %}
+  <!-- optional fallback if you don't use no_results_message -->
+  <p>No recipes matched your search.</p>
+{% endif %}
+
         <div class="grid">
             {% for recipe in recipes %}
             <article class="recipe-card">
