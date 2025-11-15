@@ -77,3 +77,38 @@ def load_recipes_csv(path="dataset/Food_Ingredients_and_Recipe_Dataset_with_Imag
             "difficulty": get_difficulty(time_val)
         })
     return recipes
+
+
+def suggest_no_results(ingredients=None, filters=None):
+    """
+    Return a short suggestion message when a search yields no results.
+
+    - ingredients: iterable of searched ingredients (can be list or comma-separated string)
+    - filters: dict of applied filters (diet, time, etc.)
+    """
+    if ingredients is None:
+        ingredients = []
+    elif isinstance(ingredients, str):
+        # split common comma/space separated input
+        ingredients = [s.strip() for s in ingredients.split(",") if s.strip()]
+
+    ingredients = list(ingredients)
+    filters = filters or {}
+
+    suggestions = []
+
+    n = len(ingredients)
+    if n == 0:
+        suggestions.append("No recipes found. Try adding 1–3 ingredients or removing filters to broaden results.")
+    elif n >= 5:
+        suggestions.append("No recipes found. Try removing some ingredients to widen results.")
+    else:
+        # 1-4 ingredients
+        suggestions.append("No recipes found. Try adding a few more ingredients to narrow results, or remove filters to broaden them.")
+
+    if filters:
+        suggestions.append("Also try disabling strict dietary/time filters or increasing maximum cook time.")
+
+    suggestions.append("Check spelling and use common ingredient names (e.g., 'tomato' not 'tomatoes').")
+
+    return " ".join(suggestions)
