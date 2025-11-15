@@ -14,9 +14,9 @@
 ### Fixed 
 - Fixed the main.py code for uploading and analyze the AI result page 
 
-## v1.8.0 – 2025-11-07
+## v1.8.0 – 2025-11-15
 ### Added 
-- @Leon
+- Added error conditions for when no recipe results are found for the user
 
 ## v1.7.0 – 2025-11-07
 ### Changed
