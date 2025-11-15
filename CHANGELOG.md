@@ -10,6 +10,14 @@
 - ( short bullet points )
 ```
 ----------------------------------------------------------------------------------------
+## v1.8.1 – 2025-11-15
+### Fixed 
+- Fixed the main.py code for uploading and analyze the AI result page 
+
+## v1.8.0 – 2025-11-07
+### Added 
+- @Leon
+
 ## v1.7.0 – 2025-11-07
 ### Changed
 - Changed `recommender.py`includes preprocessing, caching for performance, and weighted scoring for diet, difficulty, and cooking time filters.
