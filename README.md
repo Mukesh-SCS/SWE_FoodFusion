@@ -27,7 +27,7 @@ recipe_recommendation/
 ├── .gitignore                   
 ├── Readme.md                        
 ├── dataset/                 
-│ └── food_c101_n1000_r384x384x3.h5  # Image dataset (auto-downloaded)
+│ └── food_c101_n1000_r384x384x3.h5  # Image dataset
 ├── model/                 
 │ └── foodfusion_mnv2.h5             # train model from CSV and images               
 │ └── foodfusion_mnv2.onnx           # convert from train model to onnx to run fast to predictor
@@ -45,9 +45,9 @@ recipe_recommendation/
 │ └── user_upload_images        # Store the user image 
 └── utils/
 │  └──data_loader.py            # JSON/HDF5 loaders
-│ └──recommender.py            # Recommendation logic
-│ └── image_predictor.py       # AI model for dish prediction 
-│ └── train_from_csv.py        # Trains CNN on Food images 13k approx and saves model.h5
+│ └──recommender.py             # Recommendation logic
+│ └── image_predictor.py        # AI model for dish prediction 
+│ └── train_from_csv.py         # Trains CNN on Food images 13k approx and saves model.h5
 │
 └── tests/
     ├── test_recommender.py
@@ -97,7 +97,7 @@ SWE_FoodFusion/static/food_images/
 
 You can run the project locally or use the hosted version.
 
-### Option 1: Run Locally
+## Option 1: Run Locally
 
 ```bash
 python main.py
@@ -105,9 +105,7 @@ python main.py
 
 Then open your browser at: http://127.0.0.1:5000
 
-# NOTE: ONLY FOR INSTRUCTOR
-
-# Option 2: Use the Deployed Version
+## Option 2: Use the Deployed Version
 
 No installation needed.
 Access the live web application here:
