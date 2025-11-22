@@ -123,7 +123,7 @@ def predict():
     preds = predict_topk(pil, k=3)
     best, conf = preds[0]
     result = {"top3": preds, "label": best, "confidence": conf}
-    if conf < 0.45:
+    if conf < 0.06:
         result["label"] = "Unknown"
     return render_template("prediction.html", result=result)
 

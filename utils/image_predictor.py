@@ -59,7 +59,7 @@ def _init():
     with open(LABELS_PATH, "r", encoding="utf-8") as f:
         _labels = [line.strip() for line in f if line.strip()]
 
-    print(f"✅ ONNX model loaded ({len(_labels)} classes)")
+    print(f"ONNX model loaded ({len(_labels)} classes)")
 
 
 def _preprocess(pil_img, size=(224, 224)):
