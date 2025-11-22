@@ -1,19 +1,22 @@
 # SWE_FoodFusion – Test Execution Guide
 
 This document explains how to set up and run all unit tests for the **Recipe Recommendation Web Application**.  
-Tests cover both UC-001 and UC-006
+Tests cover both UC-001 , UC-006 , UC_008 and UC-015
 
 ---
 
 ## Test Coverage
 ```bash
------------------------------------------------------------------------------------------------------
-| Area               | File                   |        Purpose                                      |
-|--------------------|------------------------|-----------------------------------------------------| 
-| UC-001             | `test_recommender.py`  | UC001: Ingredient-based search (recommend function) |
-| UC-006             | `test_routes.py`       | UC006 Viewing recommended recipes (Flask routes)    |
-| Data Loader        | `test_data_loader.py`  | Verifies dataset loading and structure              |
------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+| Area               | File                            |        Purpose                                      |
+|--------------------|---------------------------------|-----------------------------------------------------| 
+| UC-001             | `test_recommender.py`           | UC001: Ingredient-based search (recommend function) |
+| UC-006             | `test_routes.py`                | UC006 Viewing recommended recipes (Flask routes)    |
+| Data Loader        | `test_data_loader.py`           | Verifies dataset loading and structure              |
+| UC-008             |                                 |                                                     |
+| UC-015             | `test_uc015_image_prediction.py`| Covers model loading, preprocessing,                |
+|                    |                                 | inference, and response rendering.                  |                                                                              
+--------------------------------------------------------------------------------------------------------------
 ```
 ---
 
