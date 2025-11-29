@@ -66,33 +66,50 @@ def upload():
 # Collects user filters (ingredients, diet, difficulty, time) and returns
 # a list of matching recipes ranked by text similarity.
 # ------------------------------------------------------------------------------
-@app.route("/search", methods=["GET", "POST"])
+@app.route("/search", methods=["POST"])
 def search():
-    # --- Collect form inputs ---
-    search_ingredients = request.form.get("ingredients", "")  # adapt to your form field
-    diet = request.form.get("diet", "")
-    difficulty = request.form.get("difficulty", "")
-    time_limit = request.form.get("time", "")
-   
-    # --- Step 1: Generate recommendations using text similarity (TF-IDF + cosine) ---
-    results = recommend(search_ingredients, recipes)
+    query = request.form.get("ingredients", "").strip()
 
-    # --- Step 2: Apply user-selected filters ---
-    if diet:
-        results = [r for r in results if r.get("diet", "").lower() == diet.lower()]
-    if difficulty:
-        results = [r for r in results if r.get("difficulty") == difficulty]
-    if time_limit:
-        try:
-            tl = int(time_limit)
-            results = [r for r in results if r.get("time", 9999) <= tl]
-        except ValueError:
-            pass
+    # Each of these becomes a list if multiple were chosen; empty list if none
+    diets = [d.lower() for d in request.form.getlist("diet") if d]
+    difficulties = [d.lower() for d in request.form.getlist("difficulty") if d]
+    times = [t for t in request.form.getlist("time") if t] 
 
+    # Step 1: run the recommender
+    results = recommend(query, recipes)
+
+    # Step 2: apply diet filter(s)
+    if diets:
+        results = [
+            r for r in results
+            if r.get("diet", "").lower() in diets
+        ]
+
+    # Step 3: apply difficulty filter(s)
+    if difficulties:
+        results = [
+            r for r in results
+            if r.get("difficulty", "").lower() in difficulties
+        ]
+
+    # Step 4: apply time limits (multiple options can be handled too)
+    if times:
+        allowed_times = []
+        for t in times:
+            try:
+                allowed_times.append(int(t))
+            except ValueError:
+                pass
+        if allowed_times:
+            min_allowed = min(allowed_times)
+            results = [
+                r for r in results
+                if isinstance(r.get("time"), (int, float)) and r.get("time") <= min_allowed
+            ]
     # Step 4: Display results in the template
     no_results_message = None
     if not results:
-        no_results_message = suggest_no_results(ingredients=search_ingredients, filters={"diet": diet, "max_time": time_limit})
+        no_results_message = suggest_no_results(ingredients=query, filters={"diet": diets, "max_time": times})
 
     return render_template("results.html", recipes=results, no_results_message=no_results_message)
 
