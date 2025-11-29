@@ -30,19 +30,19 @@
 
             <form action="/search" method="POST" class="controls">
                 <input type="text" name="ingredients" placeholder="e.g. chicken, tomato" style="min-width:220px">
-                <select name="diet">
+                <select name="diet" multiple size = "3">
                     <option value="">Any</option>
                     <option value="vegetarian">Vegetarian</option>
                     <option value="vegan">Vegan</option>
                     <option value="non-vegetarian">Non-Vegetarian</option>
                 </select>
-                <select name="difficulty">
+                <select name="difficulty" multiple size = "3">
                     <option value="">Any</option>
                     <option value="easy">Easy</option>
                     <option value="medium">Medium</option>
                     <option value="hard">Hard</option>
                 </select>
-                <select name="time"> 
+                <select name="time" multiple size = "4"> 
                     <option value="">No Limit</option>
                     <option value="15">15 min</option>
                     <option value="30">30 min</option>
