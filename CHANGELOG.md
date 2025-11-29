@@ -10,6 +10,11 @@
 - ( short bullet points )
 ```
 ----------------------------------------------------------------------------------------
+## v1.8.1 – 2025-11-29
+### Fixed 
+- Fixed the `recommender.py` for multi filter search
+- Fixed the Layout for filter option in `index.html`
+
 ## v1.8.1 – 2025-11-15
 ### Fixed 
 - Fixed the main.py code for uploading and analyze the AI result page 

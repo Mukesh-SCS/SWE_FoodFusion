@@ -30,25 +30,25 @@
 
             <form action="/search" method="POST" class="controls">
                 <input type="text" name="ingredients" placeholder="e.g. chicken, tomato" style="min-width:220px">
-                <select name="diet" multiple size = "3">
+                <select name="diet">
                     <option value="">Any</option>
                     <option value="vegetarian">Vegetarian</option>
                     <option value="vegan">Vegan</option>
                     <option value="non-vegetarian">Non-Vegetarian</option>
                 </select>
-                <select name="difficulty" multiple size = "3">
+                <select name="difficulty">
                     <option value="">Any</option>
                     <option value="easy">Easy</option>
                     <option value="medium">Medium</option>
                     <option value="hard">Hard</option>
                 </select>
-                <select name="time" multiple size = "4"> 
+                <select name="time" > 
                     <option value="">No Limit</option>
                     <option value="15">15 min</option>
                     <option value="30">30 min</option>
                     <option value="60">60 min</option>
                 </select>
-                <button type="submit" class="btn btn-primary">Search Recipes</button>
+                <button type="submit" class="btn-primary">Search Recipes</button>
             </form>
             <!-- Upload Button (bottom center) -->
               <div class="upload-section">

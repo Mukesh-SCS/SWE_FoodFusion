@@ -79,9 +79,9 @@ def recommend(query, recipes, top_n=5, diet=None, difficulty=None, time_limit=No
         - Optional weighted adjustments for diet, difficulty, and time
     """
     # Handle invalid or empty input
-    if not query or not isinstance(query, str):
+    if not isinstance(query, str):
         return []
-
+    query = query.strip()
     # --------------------------------------------------------------------------
     # STEP 1: Prepare and clean recipe ingredient text
     # --------------------------------------------------------------------------
@@ -124,10 +124,11 @@ def recommend(query, recipes, top_n=5, diet=None, difficulty=None, time_limit=No
                 pass
 
         # Keep only positively scored recipes
-        if score > 0:
+        if query.strip() == "" or score > 0:
             recipe = r.copy()
             recipe["similarity"] = round(float(score), 3)
             results.append(recipe)
+
 
     # --------------------------------------------------------------------------
     # STEP 5: Rank and return top N recipes
