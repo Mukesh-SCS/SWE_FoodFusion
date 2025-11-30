@@ -13,7 +13,7 @@
 ## v2.0.0– 2025-11-30
 ## Fixed 
 - Fixed the ingredients and instruction layout
-- Add the test case for error check
+- Add the test case for error check handling
 
 ## v1.8.1 – 2025-11-29
 ### Fixed 
