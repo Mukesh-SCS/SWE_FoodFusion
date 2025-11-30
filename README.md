@@ -53,6 +53,8 @@ recipe_recommendation/
 └── tests/
     ├── test_recommender.py
     ├── test_routes.py
+    ├── test_error_handling.py
+    ├── test_uc015_image_prediction.py
     └── test_data_loader.py
 
 ```
