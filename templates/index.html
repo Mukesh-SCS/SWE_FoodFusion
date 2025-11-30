@@ -90,24 +90,26 @@
         <img id="modal-img" src="">
         <p><strong>Diet:</strong> <span id="modal-diet"></span></p>
         <p><strong>Time:</strong> <span id="modal-time"></span> min</p>
-        <p><strong>Ingredients:</strong> <span id="modal-ingredients"></span></p>
-        <p><strong>Instructions:</strong> <span id="modal-instructions"></span></p>
+        <p><strong>Ingredients:</strong> <ol id="modal-ingredients"></ol></p>
+        <p><strong>Instructions:</strong> <ol id="modal-instructions"></ol></p>
     </div>
 </div>
 
 
-<!-- JS for Specials and Modal -->
 <script>
 let currentIndex = 0;
 const slides = document.querySelectorAll(".special-slide");
 
 function showNext() {
     slides[currentIndex].classList.remove("active");
-    slides[currentIndex].style.pointerEvents = "none"; // disable click on hidden
+    slides[currentIndex].style.pointerEvents = "none";
+
     currentIndex = (currentIndex + 1) % slides.length;
+
     slides[currentIndex].classList.add("active");
-    slides[currentIndex].style.pointerEvents = "auto"; // enable only active
+    slides[currentIndex].style.pointerEvents = "auto";
 }
+
 if (slides.length) {
     slides.forEach(s => s.style.pointerEvents = "none");
     slides[0].style.pointerEvents = "auto";
@@ -115,23 +117,43 @@ if (slides.length) {
 }
 
 function openSpecialModal(el) {
+
     document.getElementById("modal-title").innerText = el.dataset.name;
     document.getElementById("modal-img").src = el.dataset.image;
     document.getElementById("modal-diet").innerText = el.dataset.diet;
     document.getElementById("modal-time").innerText = el.dataset.time;
-    document.getElementById("modal-ingredients").innerText = el.dataset.ingredients;
-    document.getElementById("modal-instructions").innerText = el.dataset.instructions;
+
+    // --- Format Ingredients as <li> ---
+    const ingredientsEl = document.getElementById("modal-ingredients");
+    ingredientsEl.innerHTML = "";  
+    el.dataset.ingredients.split(',').forEach(item => {
+        if (item.trim()) {
+            ingredientsEl.innerHTML += `<li>${item.trim()}</li>`;
+        }
+    });
+
+    // --- Format Instructions as <li> ---
+    const instructionsEl = document.getElementById("modal-instructions");
+    instructionsEl.innerHTML = "";  
+    el.dataset.instructions.split('.').forEach(step => {
+        if (step.trim()) {
+            instructionsEl.innerHTML += `<li>${step.trim()}.</li>`;
+        }
+    });
+
     document.getElementById("special-modal").style.display = "block";
 }
 
 function closeSpecialModal() {
     document.getElementById("special-modal").style.display = "none";
 }
+
 window.onclick = function(e) {
     const modal = document.getElementById("special-modal");
     if (e.target === modal) modal.style.display = "none";
 };
 </script>
+
 
 </body>
 </html>

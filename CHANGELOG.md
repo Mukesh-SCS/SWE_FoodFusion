@@ -10,6 +10,11 @@
 - ( short bullet points )
 ```
 ----------------------------------------------------------------------------------------
+## v2.0.0– 2025-11-30
+## Fixed 
+- Fixed the ingredients and instruction layout
+- Add the test case for error check
+
 ## v1.8.1 – 2025-11-29
 ### Fixed 
 - Fixed the `recommender.py` for multi filter search
