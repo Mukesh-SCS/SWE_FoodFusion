@@ -28,7 +28,7 @@ recipe_recommendation/
 ├── .gitignore                   
 ├── Readme.md                        
 ├── dataset/                 
-│ └── food_c101_n1000_r384x384x3.h5  # Image dataset
+│ └── food_*.csv                    # Image dataset
 ├── model/                 
 │ └── foodfusion_mnv2.h5             # train model from CSV and images               
 │ └── foodfusion_mnv2.onnx           # convert from train model to onnx to run fast to predictor
@@ -116,7 +116,7 @@ Access the live web application here:
 
 
 # TECH USING 
-- Backend: Python (Flask, pandas, numpy, scikit-learn)
+- Backend: Python (Flask, pandas, numpy, scikit-learn, tenserflow- MobilenetV2)
 - Frontend: HTML, CSS
 - Data: CSV dataset from Kaggle
 - Model: TF-IDF + Cosine Similarity

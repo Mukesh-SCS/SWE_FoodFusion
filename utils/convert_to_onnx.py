@@ -29,7 +29,7 @@ MODEL_ONNX = "models/foodfusion_mnv2.onnx"
 
 # --- Verify source model exists ---
 if not os.path.exists(MODEL_H5):
-    raise FileNotFoundError(f"❌ TensorFlow model not found: {MODEL_H5}")
+    raise FileNotFoundError(f"TensorFlow model not found: {MODEL_H5}")
 
 # --- Load the trained .h5 model ---
 print(f"Loading model from {MODEL_H5} ...")
@@ -39,7 +39,7 @@ model = tf.keras.models.load_model(MODEL_H5)
 spec = (tf.TensorSpec((None, 224, 224, 3), tf.float32, name="input"),)
 
 # --- Convert to ONNX ---
-print("⚙️  Converting model to ONNX format...")
+print("Converting model to ONNX format...")
 model_proto, _ = tf2onnx.convert.from_keras(model, input_signature=spec, output_path=MODEL_ONNX)
 
 print(f"Conversion complete — ONNX model saved to: {MODEL_ONNX}")

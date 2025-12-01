@@ -13,9 +13,9 @@ Tests cover both UC-001 , UC-006 , UC_008 and UC-015
 | UC-001             | `test_recommender.py`           | UC001: Ingredient-based search (recommend function) |
 | UC-006             | `test_routes.py`                | UC006 Viewing recommended recipes (Flask routes)    |
 | Data Loader        | `test_data_loader.py`           | Verifies dataset loading and structure              |
-| UC-008             |                                 |                                                     |
+| UC-008             | `test_error_handling`           | Verifies the error handling for user input          |
 | UC-015             | `test_uc015_image_prediction.py`| Covers model loading, preprocessing,                |
-|                    |                                 | inference, and response rendering.                  |                                                                              
+|                    |                                 | inference, and response          rendering.           |                                                                                       |
 --------------------------------------------------------------------------------------------------------------
 ```
 ---
